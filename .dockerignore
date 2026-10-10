@@ -1,0 +1,13 @@
+.git
+.env
+vendor
+writable/cache/*
+writable/logs/*
+writable/session/*
+public/uploads/products/*
+public/uploads/avatars/*
+docs
+tests
+CONTINUE_PROMPT.md
+.docker-config
+.composer-cache
