@@ -1,10 +1,14 @@
-# Manual Railway deployment
+# Railway deployment
 
 This document is for the student to execute. The application service must use a Railway MySQL service; it must never connect to your laptop’s XAMPP database.
 
+## Current status
+
+The source is published at <https://github.com/ahbarcelon/counterpoint-pos-system>. On 2026-10-10, Railway project creation was attempted from the signed-in workspace, but Railway stopped before creating any project or service with: “Free plan resource provision limit exceeded. Please upgrade to provision more resources.” The workspace already contains two online projects with two services each. No existing project was modified or deleted, no payment action was taken, and no hosted URL was invented. Once the user upgrades the plan or identifies an existing project/service that may safely be replaced, continue from step 2 below.
+
 1. Push the project to a new GitHub repository using [GITHUB_SETUP.md](GITHUB_SETUP.md). Confirm the Dockerfile, Composer files, migrations, and docs are present.
 
-2. In Railway, create a new project. Add a **MySQL** service and confirm its data volume/persistence is enabled according to the current Railway UI. Wait until the database is healthy.
+2. In Railway, create a new project after the workspace has capacity. Add a **MySQL** service and confirm its data volume/persistence is enabled according to the current Railway UI. Wait until the database is healthy.
 
 3. Add a service from your GitHub repository, select the `main` branch, and allow Railway to build from the root `Dockerfile`. The Dockerfile uses Apache with the document root at `/var/www/html/public`. At startup Apache binds to Railway's `PORT` variable (default `8080`) on all interfaces.
 
