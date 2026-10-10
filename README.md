@@ -34,10 +34,11 @@ Then open `http://localhost:8080/login`. Do not run the sample seeder on product
 ## Deployment and submission
 
 - Source repository: <https://github.com/ahbarcelon/counterpoint-pos-system>
+- Live application: <https://counterpoint-pos-system-production.up.railway.app/>
 - [GitHub setup](docs/GITHUB_SETUP.md) records the published repository and retains reusable update commands.
 - [Railway deployment](docs/RAILWAY_DEPLOYMENT.md) documents the generated Dockerfile, database settings, and current deployment status.
 - [Testing checklist](docs/TESTING_CHECKLIST.md) separates local checks from manual XAMPP/Railway checks.
 
 Local verification on XAMPP PHP 8.2.12 and MariaDB 10.4.32 included Composer validation, a locked-dependency security advisory audit, PHP lint on all 92 project PHP files, route listing, all five migrations, the optional seeder, and six PHPUnit tests (28 assertions). A fresh HTTP smoke run passed protected routing, login, product/customer/staff creation, secure raster upload re-encoding, successful sale recording, duplicate submission protection, insufficient-stock rejection, sales history, protected customer deletion, product archiving, and allowed staff deletion. The test databases and temporary upload were removed after verification.
 
-Railway project creation is currently blocked by the account's Trial resource-provision limit, so no hosted URL exists yet. The exact blocker and ready-to-run deployment steps are recorded in [docs/RAILWAY_DEPLOYMENT.md](docs/RAILWAY_DEPLOYMENT.md). Never commit `.env`, credentials, generated uploads, or runtime data.
+On 2026-10-10, the existing Railway project `giving-comfort` was renamed `counterpoint-pos-system` and its former Tasks application service was replaced with this POS. The existing MySQL service and its old data were retained; POS tables were migrated into a separate `counterpoint_pos` database. The Docker build, pre-deploy migrations, public login page, and first staff login were verified on the live HTTPS domain. A persistent volume is mounted for uploads, but image survival across a redeploy and end-to-end production CRUD/sale flows have not yet been checked. See [docs/RAILWAY_DEPLOYMENT.md](docs/RAILWAY_DEPLOYMENT.md) for the exact configuration. Never commit `.env`, credentials, generated uploads, or runtime data.
