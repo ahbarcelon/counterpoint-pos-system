@@ -31,6 +31,7 @@ class Auth extends BaseController
             'username' => $user['username'],
             'full_name' => $user['full_name'],
             'avatar' => $user['avatar'],
+            'is_admin' => (int) $user['is_admin'],
         ]);
         return redirect()->to('/dashboard')->with('success', 'Welcome back, ' . $user['full_name'] . '.');
     }

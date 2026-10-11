@@ -37,7 +37,7 @@ The source is published at <https://github.com/ahbarcelon/counterpoint-pos-syste
    php spark migrate --all
    ```
 
-   Do not configure `SampleDataSeeder` as a deployment step. It is optional demo data and would duplicate rows. The pre-deploy command runs separately from the running service and does not receive its upload volume. The first production account was created once through the app service's Railway console; its password is not in the repository. To create another initial account in a fresh deployment, open `railway ssh` for the app service and run these commands inside its shell:
+   Do not configure `SampleDataSeeder` as a deployment step. It is optional showcase data, not production initialization; even though it is idempotent, automatic demo seeding would be unwanted on most deployments. The pre-deploy command runs separately from the running service and does not receive its upload volume. The first production account was created once through the app service's Railway console; its password is not in the repository. To create another initial account in a fresh deployment, open `railway ssh` for the app service and run these commands inside its shell:
 
    ```bash
    bash
@@ -48,6 +48,8 @@ The source is published at <https://github.com/ahbarcelon/counterpoint-pos-syste
    ```
 
    Run `railway ssh` from a local directory linked to this Railway project, or select the app service in the CLI first. `railway run`/`railway shell` execute locally and are not substitutes for an interactive shell inside the deployed container. Never add a default password to source code.
+
+   If you explicitly want the optional PC-store showcase rows, run `php spark db:seed PcStoreSampleSeeder` **once** from the app service console after migrations and the first administrator account exist. It adds 20 rows in each of products, customers, non-admin demo staff, and sales; reruns reuse its own rows and sale tokens. Demo staff passwords are random and undisclosed until an administrator sets one. It does not read or change the existing administrator password.
 
 6. Generate a public domain in the app service’s Networking settings. Set `APP_BASE_URL` to the exact HTTPS domain plus a trailing slash after the domain is known. This must match the browser URL so sessions and CSRF checks work. The current domain is the live URL shown above.
 

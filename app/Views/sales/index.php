@@ -1,5 +1,5 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<div class="page-heading"><div><p class="eyebrow">TRANSACTIONS</p><h1>Sales history</h1><p class="muted">Stored totals never change when a product price is edited.</p></div><a class="button primary" href="<?= base_url('sales/new') ?>">＋ Record sale</a></div>
+<div class="page-heading"><div><p class="eyebrow">COUNTER / TRANSACTIONS</p><h1>Sales history</h1><p class="muted">A dependable record of every product sold and every peso earned.</p><span class="count-chip"><?= esc(count($sales)) ?> recent transactions</span></div><a class="button primary" href="<?= base_url('sales/new') ?>">＋ Record sale</a></div>
 <section class="panel"><div class="table-wrap"><table><thead><tr><th>Product</th><th>Customer</th><th>Staff</th><th>Qty</th><th>Total</th><th>Date</th></tr></thead><tbody><?php if (!$sales): ?><tr><td colspan="6" class="empty">No sales recorded yet.</td></tr><?php endif; ?><?php foreach ($sales as $sale): ?><tr><td><?= esc($sale['product_name']) ?></td><td><?= esc($sale['customer_name']) ?></td><td><?= esc($sale['staff_name']) ?></td><td><?= esc($sale['quantity']) ?></td><td>₱<?= esc($sale['total_price']) ?></td><td><?= esc(date('M j, Y g:i A', strtotime($sale['created_at']))) ?></td></tr><?php endforeach; ?></tbody></table></div></section>
 <?= $this->endSection() ?>

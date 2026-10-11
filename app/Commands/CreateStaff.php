@@ -30,10 +30,12 @@ class CreateStaff extends BaseCommand
             CLI::error('That username already exists.');
             return EXIT_ERROR;
         }
+        $isFirstAccount = $users->countAllResults() === 0;
         $created = $users->insert([
             'username' => $username,
             'full_name' => $fullName,
             'password' => password_hash($password, PASSWORD_DEFAULT),
+            'is_admin' => $isFirstAccount ? 1 : 0,
             'created_at' => date('Y-m-d H:i:s'),
         ]);
         if ($created === false) {

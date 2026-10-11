@@ -9,6 +9,7 @@ CounterPoint is a small, conventional MVC point-of-sale application for the IT00
 - Sale recording locks the selected product row, performs a conditional stock decrement, calculates money in integer cents, inserts the sale, and commits both changes together. A unique request token prevents a repeated form submission from charging the same sale twice.
 - CSRF protection applies globally. Management routes are protected by the `auth` filter. Output is escaped with `esc()` and uploads are MIME/content checked, resized, re-encoded, and given generated names.
 - Product deletion is implemented as archiving. Customers and staff with sales cannot be deleted. The final staff account and the currently signed-in staff account cannot be removed.
+- A persisted administrator flag controls team management. Administrators can create and manage staff; ordinary staff can view and edit only their own profile. The final administrator cannot be deleted.
 - Protected requests verify that the signed-in staff account still exists, so deletion invalidates any other active session for that account on its next request.
 
 The completed implementation was reconciled against the supplied IT0049 DOCX rubric and the CodeIgniter/XAMPP/GitHub/Railway Markdown guide. The DOCX is the authority for the required schema, features, relationships, rubric, and submission links; the Markdown guide informed the Windows and deployment workflow.
@@ -21,15 +22,15 @@ See [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md). The short version is:
 Copy-Item .env.example .env
 composer install
 php spark migrate --all
-php spark db:seed SampleDataSeeder # optional local-only demo data
 $securePassword = Read-Host 'Initial staff password' -AsSecureString
 $env:POS_INITIAL_PASSWORD = [System.Net.NetworkCredential]::new('', $securePassword).Password
 php spark pos:create-staff
 Remove-Item Env:POS_INITIAL_PASSWORD
+php spark db:seed SampleDataSeeder # optional: 20 PC-store rows in each sample category
 php spark serve
 ```
 
-Then open `http://localhost:8080/login`. Do not run the sample seeder on production.
+Then open `http://localhost:8080/login`. Create the first administrator before loading samples. The sample staff receive independent random, undisclosed passwords; an administrator can set a password for any sample account that needs to sign in. Do not configure the seeder to run automatically on every production deployment.
 
 ## Deployment and submission
 

@@ -16,10 +16,14 @@ class AuthFilter implements FilterInterface
             return redirect()->to('/login')->with('error', 'Please sign in to continue.');
         }
 
-        if (! (new UserModel())->select('id')->find($userId)) {
+        $user = (new UserModel())->select('id, is_admin')->find($userId);
+        if (! $user) {
             session()->destroy();
             return redirect()->to('/login')->with('error', 'This staff account is no longer available. Please sign in again.');
         }
+
+        // Refresh privileges on each request; a session never grants a stale role.
+        session()->set('is_admin', (int) $user['is_admin']);
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

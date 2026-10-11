@@ -15,7 +15,13 @@ abstract class BaseController extends Controller
             'username' => (string) session('username'),
             'full_name' => (string) session('full_name'),
             'avatar' => session('avatar'),
+            'is_admin' => (int) session('is_admin'),
         ];
+    }
+
+    protected function isAdmin(): bool
+    {
+        return (int) session('is_admin') === 1;
     }
 
     protected function now(): string

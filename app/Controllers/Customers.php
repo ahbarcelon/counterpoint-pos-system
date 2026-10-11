@@ -37,7 +37,7 @@ class Customers extends BaseController
     {
         $customer = $this->customers->find($id);
         if (! $customer) return redirect()->to('/customers')->with('error', 'Customer not found.');
-        $sales = (new SaleModel())->where('customer_id', $id)->orderBy('created_at', 'DESC')->findAll();
+        $sales = (new SaleModel())->select('sales.*, products.name AS product_name')->join('products', 'products.id = sales.product_id')->where('customer_id', $id)->orderBy('sales.created_at', 'DESC')->orderBy('sales.id', 'DESC')->findAll();
         return view('customers/show', ['title' => 'Customer details', 'customer' => $customer, 'sales' => $sales]);
     }
 

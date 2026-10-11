@@ -42,14 +42,13 @@ Run PowerShell commands from the project directory, for example `C:\path\to\pos-
 
 7. Ensure these directories exist and are writable by the web server: `writable`, `public/uploads/products`, and `public/uploads/avatars`. The repository includes empty `.gitkeep` files, but runtime contents remain ignored.
 
-8. Apply the schema and optionally add local-only demo rows:
+8. Apply the schema, then create the first administrator:
 
    ```powershell
    php spark migrate --all
-   php spark db:seed SampleDataSeeder
    ```
 
-   The sample seeder does not create credentials and must not be run on production. Create the first staff account without typing its password into shell history:
+   Create the first account without typing its password into shell history. The first account receives administrator privileges:
 
    ```powershell
    $securePassword = Read-Host 'Initial staff password' -AsSecureString
@@ -59,6 +58,14 @@ Run PowerShell commands from the project directory, for example `C:\path\to\pos-
    ```
 
    Enter a password of at least 8 characters at the hidden prompt. The command then asks for a unique username and display name. The password is hashed in the database; clear the temporary environment variable even if account creation fails.
+
+   Optionally add 20 PC-store products, 20 fictional customers, 20 non-administrator demo staff, and 20 sample sales:
+
+   ```powershell
+   php spark db:seed SampleDataSeeder
+   ```
+
+   This seeder is repeatable and does not reset the administrator password or duplicate its own sales. Demo staff have random, undisclosed passwords until an administrator sets one. Never run sample seeding automatically on each production deployment.
 
 9. Start the development server:
 
