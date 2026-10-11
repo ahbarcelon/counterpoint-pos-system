@@ -17,7 +17,7 @@
             <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
             <button class="button primary" type="submit">Sign in</button>
         </form>
-        <p class="small muted">An administrator must create the first staff account using the documented CLI command.</p>
+        <p class="small muted">Need access? Ask your store administrator to create a staff account for you.</p>
     </div>
 </section>
 <?= $this->endSection() ?>
