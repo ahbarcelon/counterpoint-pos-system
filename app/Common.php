@@ -13,3 +13,16 @@
  *
  * @see: https://codeigniter.com/user_guide/extending/common.html
  */
+
+if (! function_exists('pos_money')) {
+    /** Format a stored DECIMAL amount without converting it through a float. */
+    function pos_money(string $amount): string
+    {
+        if (! preg_match('/\A(\d+)(?:\.(\d{1,2}))?\z/', trim($amount), $parts)) {
+            return $amount;
+        }
+
+        return number_format((int) $parts[1], 0, '.', ',')
+            . '.' . str_pad($parts[2] ?? '0', 2, '0');
+    }
+}
